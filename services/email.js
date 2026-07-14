@@ -7,23 +7,24 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // ==========================
 
 async function enviarEmailVerificacao(email, nome, token) {
+
+    console.log("========== ENVIANDO EMAIL ==========");
+    console.log("Destino:", email);
+
+    const link = `${process.env.APP_URL}/usuarios/verificar/${token}`;
+
     try {
 
-        console.log("Entrou na função enviarEmailVerificacao");
-
-        const link = `${process.env.APP_URL}/usuarios/verificar/${token}`;
-
-        console.log("Link:", link);
-        console.log("Enviando para:", email);
-
         const resposta = await resend.emails.send({
-            from: "Seu App <onboarding@resend.dev>",
+
+            from: 'Seu App <onboarding@resend.dev>',
+
             to: email,
-            subject: "Confirme seu email ❤️",
+
+            subject: 'Confirme seu email ❤️',
+
             html: `
                 <h1>Olá ${nome}</h1>
-
-                <p>Obrigado por criar sua conta.</p>
 
                 <a href="${link}">
                     Confirmar Email
@@ -31,15 +32,16 @@ async function enviarEmailVerificacao(email, nome, token) {
             `
         });
 
-        console.log("RESPOSTA DO RESEND:");
+        console.log("RESEND RESPOSTA:");
         console.log(resposta);
 
-    } catch (error) {
+    } catch (erro) {
 
-        console.log("ERRO AO ENVIAR EMAIL:");
-        console.log(error);
+        console.log("ERRO RESEND:");
+        console.log(erro);
 
     }
+
 }
 
 // ==========================
