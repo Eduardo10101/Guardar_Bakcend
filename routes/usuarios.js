@@ -176,22 +176,20 @@ token
 
 );
 
-
-
-
+console.log("==================================");
+console.log("INICIANDO ENVIO DO EMAIL");
+console.log("Nome:", nome);
+console.log("Email:", email);
+console.log("Token:", token);
 
 await enviarEmailVerificacao(
-
-email,
-
-nome,
-
-token
-
+    email,
+    nome,
+    token
 );
 
-
-
+console.log("FUNÇÃO enviarEmailVerificacao FINALIZADA");
+console.log("==================================");
 
 
 res.status(201).json({
