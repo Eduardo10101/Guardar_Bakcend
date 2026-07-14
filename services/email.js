@@ -1,150 +1,131 @@
 const { Resend } = require('resend');
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const resend = new Resend(
-    process.env.RESEND_API_KEY
-);
+// ==========================
+// EMAIL DE VERIFICAÇÃO
+// ==========================
 
+async function enviarEmailVerificacao(email, nome, token) {
 
+    try {
 
+        const link = `${process.env.APP_URL}/usuarios/verificar/${token}`;
 
+        const resposta = await resend.emails.send({
 
-async function enviarEmailVerificacao(email, nome, token){
+            from: 'Seu App <onboarding@resend.dev>',
 
+            to: email,
 
-    const link =
-    `vamosair://resetar-senha/${token}`;
+            subject: 'Confirme seu email ❤️',
 
+            html: `
 
+            <h1>Olá ${nome}!</h1>
 
-    await resend.emails.send({
+            <p>
+            Obrigado por criar sua conta.
+            </p>
 
-        from: 'Seu App <onboarding@resend.dev>',
+            <p>
+            Clique abaixo para confirmar seu email:
+            </p>
 
+            <a href="${link}"
 
-        to: email,
+            style="
+            background:#E11D48;
+            color:white;
+            padding:12px 20px;
+            border-radius:8px;
+            text-decoration:none;
+            ">
 
+            Confirmar Email
 
-        subject:'Confirme seu email ❤️',
+            </a>
 
+            `
 
-        html:`
+        });
 
-        <h1>Olá ${nome}!</h1>
+        console.log('EMAIL VERIFICAÇÃO ENVIADO:');
+        console.log(resposta);
 
+    } catch (erro) {
 
-        <p>
-        Obrigado por criar sua conta.
-        </p>
+        console.error('ERRO AO ENVIAR EMAIL DE VERIFICAÇÃO:');
+        console.error(erro);
 
-
-        <p>
-        Clique abaixo para confirmar seu email:
-        </p>
-
-
-        <a href="${link}"
-
-        style="
-        background:#E11D48;
-        color:white;
-        padding:12px 20px;
-        border-radius:8px;
-        text-decoration:none;
-        ">
-
-        Confirmar email
-
-        </a>
-
-        `
-
-
-    });
-
+    }
 
 }
 
+// ==========================
+// EMAIL RESET SENHA
+// ==========================
 
+async function enviarEmailReset(email, nome, token) {
 
+    try {
 
+        const link =
+        `${process.env.APP_URL}/usuarios/resetar-senha/${token}`;
 
+        const resposta = await resend.emails.send({
 
+            from: 'Seu App <onboarding@resend.dev>',
 
+            to: email,
 
+            subject: 'Recuperação de senha 🔐',
 
-async function enviarEmailReset(email, nome, token){
+            html: `
 
+            <h1>Olá ${nome}!</h1>
 
-    const link = 
-    `${process.env.APP_URL}/usuarios/resetar-senha/${token}`;
+            <p>
+            Recebemos uma solicitação para alterar sua senha.
+            </p>
 
+            <p>
+            Clique abaixo para criar uma nova senha:
+            </p>
 
+            <a href="${link}"
 
-    await resend.emails.send({
+            style="
+            background:#001eff;
+            color:white;
+            padding:12px 20px;
+            border-radius:8px;
+            text-decoration:none;
+            ">
 
+            Redefinir Senha
 
-        from:'Seu App <onboarding@resend.dev>',
+            </a>
 
+            <p>
+            Esse link expira em 10 minutos.
+            </p>
 
-        to:email,
+            `
 
+        });
 
-        subject:'Recuperação de senha 🔐',
+        console.log('EMAIL RESET ENVIADO:');
+        console.log(resposta);
 
+    } catch (erro) {
 
-        html:`
+        console.error('ERRO AO ENVIAR EMAIL RESET:');
+        console.error(erro);
 
-
-        <h1>Olá ${nome}!</h1>
-
-
-        <p>
-        Recebemos uma solicitação para alterar sua senha.
-        </p>
-
-
-        <p>
-        Clique abaixo para criar uma nova senha:
-        </p>
-
-
-
-        <a href="${link}"
-
-        style="
-        background:#001eff;
-        color:white;
-        padding:12px 20px;
-        border-radius:8px;
-        text-decoration:none;
-        ">
-
-
-        Redefinir senha
-
-
-        </a>
-
-
-
-        <p>
-        Esse link expira em 10 minutos.
-        </p>
-
-
-        `
-
-
-    });
-
+    }
 
 }
-
-
-
-
-
 
 module.exports = {
 
