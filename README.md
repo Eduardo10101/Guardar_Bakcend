@@ -290,4 +290,4 @@ Durante o desenvolvimento foram aplicados conhecimentos de:
 Estudante de Desenvolvimento de Sistemas
 
 GitHub:
-https://github.com/Eduardo10101
+https://github.com/devEduLucas
